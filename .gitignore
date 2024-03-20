@@ -137,3 +137,5 @@ wandb/
 evaluation/seism
 *.sh
 imgs/
+
+.VSCodeCounter
