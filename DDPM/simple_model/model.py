@@ -1,3 +1,13 @@
+'''
+Author: Suizhi HUANG && sunrisen.huang@gmail.com
+Date: 2024-03-22 17:31:22
+LastEditors: Suizhi HUANG && sunrisen.huang@gmail.com
+LastEditTime: 2024-03-22 19:05:33
+FilePath: /DL_Demo/DDPM/simple_model/model.py
+Description: define the model for the simple model in DDPM
+Copyright (c) 2024 by $Suizhi HUANG, All Rights Reserved. 
+'''
+
 import torch.nn as nn
 import torch.nn.functional as F
 

@@ -1,3 +1,12 @@
+'''
+Author: Suizhi HUANG && sunrisen.huang@gmail.com
+Date: 2024-03-22 17:40:49
+LastEditors: Suizhi HUANG && sunrisen.huang@gmail.com
+LastEditTime: 2024-03-22 19:05:14
+FilePath: /DL_Demo/DDPM/simple_model/helper_plot.py
+Copyright (c) 2024 by $Suizhi HUANG, All Rights Reserved. 
+'''
+
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -8,6 +17,7 @@ from matplotlib.patches import Ellipse
 
 
 def hdr_plot_style():
+
     plt.style.use('dark_background')
     mpl.rcParams.update({'font.size': 18, 'lines.linewidth': 3, 'lines.markersize': 15})
     # avoid type 3 (i.e. bitmap) fonts in figures

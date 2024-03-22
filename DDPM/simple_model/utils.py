@@ -1,3 +1,12 @@
+'''
+Author: Suizhi HUANG && sunrisen.huang@gmail.com
+Date: 2024-03-22 17:41:46
+LastEditors: Suizhi HUANG && sunrisen.huang@gmail.com
+LastEditTime: 2024-03-22 19:05:51
+FilePath: /DL_Demo/DDPM/simple_model/utils.py
+Copyright (c) 2024 by $Suizhi HUANG, All Rights Reserved. 
+'''
+
 import torch
 import numpy as np
 
@@ -16,6 +25,7 @@ def make_beta_schedule(schedule='linear', n_steps=1000, start=1e-5, end=1e-2):
 
 
 def extract(input, t, x):
+
     shape = x.shape
     out = torch.gather(input, 0, t.to(input.device))
     reshape = [t.shape[0]] + [1] * (len(shape) - 1)

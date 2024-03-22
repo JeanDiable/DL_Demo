@@ -1,14 +1,12 @@
 '''
 Author: Suizhi HUANG && sunrisen.huang@gmail.com
-Date: 2024-03-22 16:50:52
+Date: 2024-03-22 17:49:00
 LastEditors: Suizhi HUANG && sunrisen.huang@gmail.com
-LastEditTime: 2024-03-22 16:52:12
+LastEditTime: 2024-03-22 17:49:00
 FilePath: /DL_Demo/DDPM/simple_model/ema.py
-Description: 
+Description: exponential moving average (EMA) for model parameters
 Copyright (c) 2024 by $Suizhi HUANG, All Rights Reserved. 
 '''
-
-# exponential moving average
 
 
 class EMA(object):
