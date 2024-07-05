@@ -18,7 +18,7 @@ from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from visualize.plot import *
 
-config = Config(r"../config/config.yaml")
+config = Config(r"/sharedata/usr/huangsuizhi/DL_Demo/DDPM/DDPM_main/config/config.yaml")
 model = DFUNet(config).to(config.device)
 scheduler = DDPMScheduler(config)
 
@@ -35,18 +35,18 @@ test_labels = torch.concat([training_data[i][1].unsqueeze(0) for i in range(8)])
 timesteps = scheduler.sample_timesteps(8)
 noise = torch.randn(test_images.shape).to(config.device)
 noisy_image = scheduler.add_noise(image=test_images, noise=noise, timesteps=timesteps)
-plot_images(
-    (test_images / 2 + 0.5).clamp(0, 1),
-    titles=test_labels.detach().tolist(),
-    fig_titles="original image",
-    save_dir=config.proj_name,
-)
-plot_images(
-    (noisy_image / 2 + 0.5).clamp(0, 1),
-    titles=test_labels.detach().tolist(),
-    fig_titles="noisy image",
-    save_dir=config.proj_name,
-)
+# plot_images(
+#     (test_images / 2 + 0.5).clamp(0, 1),
+#     titles=test_labels.detach().tolist(),
+#     fig_titles="original image",
+#     save_dir=config.proj_name,
+# )
+# plot_images(
+#     (noisy_image / 2 + 0.5).clamp(0, 1),
+#     titles=test_labels.detach().tolist(),
+#     fig_titles="noisy image",
+#     save_dir=config.proj_name,
+# )
 
 # 训练模型
 for ep in range(config.epochs):
@@ -80,16 +80,19 @@ for ep in range(config.epochs):
                 'optimizer_state_dict': optimizer.state_dict(),
                 'loss': loss,
             },
-            r"checkpoints/model_ep" + str(ep + 1),
+            r"/sharedata/usr/huangsuizhi/DL_Demo/DDPM/DDPM_main/models/checkpoints/model_ep"
+            + str(ep + 1),
         )
 
     # 采样一些图片
     if (ep + 1) % config.sample_period == 0:
         model.eval()
-        labels = torch.randint(0, 9, (config.num_inference_images, 1)).to(config.device)
-        image = inference(
-            model, scheduler, config.num_inference_images, config, noise=labels
+        labels = (
+            torch.randint(0, 9, (config.num_inference_images, 1))
+            .to(config.device)
+            .float()
         )
+        image = inference(model, scheduler, config.num_inference_images, config)
         image = (image / 2 + 0.5).clamp(0, 1)
         plot_images(image, save_dir=config.proj_name, titles=labels.detach().tolist())
         model.train()
