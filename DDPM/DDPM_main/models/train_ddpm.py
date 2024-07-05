@@ -7,13 +7,13 @@ sys.path.append(str(top_dir))
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from config.config import Config
 from data.mnist_data import MNISTData
 from diffuser_unet import DFUNet
 from inference import inference
 from scheduler.ddpm_scheduler import DDPMScheduler
 from torch.utils.data import DataLoader
-
 # 用于显示进度条，不需要可以去掉
 from tqdm.auto import tqdm
 from visualize.plot import *
@@ -29,25 +29,6 @@ optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
 training_data = MNISTData(config, r"/sharedata/datasets/MNIST", return_label=True)
 train_dataloader = DataLoader(training_data, batch_size=config.batch, shuffle=True)
 
-# 显示原图像和加噪后的图像
-test_images = torch.concat([training_data[i][0].unsqueeze(0) for i in range(8)])
-test_labels = torch.concat([training_data[i][1].unsqueeze(0) for i in range(8)])
-timesteps = scheduler.sample_timesteps(8)
-noise = torch.randn(test_images.shape).to(config.device)
-noisy_image = scheduler.add_noise(image=test_images, noise=noise, timesteps=timesteps)
-# plot_images(
-#     (test_images / 2 + 0.5).clamp(0, 1),
-#     titles=test_labels.detach().tolist(),
-#     fig_titles="original image",
-#     save_dir=config.proj_name,
-# )
-# plot_images(
-#     (noisy_image / 2 + 0.5).clamp(0, 1),
-#     titles=test_labels.detach().tolist(),
-#     fig_titles="noisy image",
-#     save_dir=config.proj_name,
-# )
-
 # 训练模型
 for ep in range(config.epochs):
     progress_bar = tqdm(total=len(train_dataloader))
@@ -58,9 +39,9 @@ for ep in range(config.epochs):
         noise = torch.randn(image.shape).to(config.device)
         noisy_image = scheduler.add_noise(image=image, noise=noise, timesteps=timesteps)
 
-        pred = model(noisy_image, timesteps)[0]
+        # pred = model(noisy_image, timesteps)[0]
         pred = model(noisy_image, timesteps)
-        loss = torch.nn.functional.mse_loss(pred, noise)
+        loss = F.mse_loss(pred, noise)
         optimizer.zero_grad()
         loss.backward()
 

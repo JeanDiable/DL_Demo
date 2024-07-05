@@ -55,7 +55,7 @@ class Scheduler:
         self, image: torch.Tensor, noise: torch.Tensor, timesteps: torch.Tensor
     ) -> torch.Tensor:
         '''
-        根据采样的时间点，对图像进行加噪
+        根据采样的时间点，对图像进行加噪,即前向过程
 
         x_t = √(α_t)x_0 + √(1-α_t) ε
         '''

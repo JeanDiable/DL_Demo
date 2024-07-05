@@ -20,7 +20,7 @@ model.eval()
 scheduler = DDPMScheduler(config)
 
 # 读取模型
-checkpoint = torch.load(r"checkpoints\model_ep125")
+checkpoint = torch.load(r"./checkpoints/model_ep125")
 model.load_state_dict(checkpoint['model_state_dict'])
 
 image = inference(model, scheduler, config.num_inference_images, config)

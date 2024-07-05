@@ -17,6 +17,9 @@ class DDPMScheduler(Scheduler):
         timestep: torch.Tensor,
         noisy_image: torch.Tensor,
     ):
+        '''
+        反向走一步
+        '''
         prev_t = self.prev_timestep(timestep)
 
         alpha_bar_at_t = self.alphas_cumprod[timestep]
